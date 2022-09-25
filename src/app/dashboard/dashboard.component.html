@@ -1,0 +1,80 @@
+<div class="card mt-4">
+
+    <h4 class="card-header">Hii, {{ user.walletName}} <span style="font-size: medium; float: right">
+            <a class="nav-item nav-link" (click)="logout()">Logout</a>
+        </span></h4>
+    <div class="card-body">
+        <table>
+            <tr>
+                <th>walletId</th>
+                <th>Wallet Balance</th>
+                <th>Created At</th>
+            </tr>
+            <tr>
+                <td>{{ user.walletId }}</td>
+                <td>{{ user.Balance }}</td>
+                <td>{{ user.Date | date:'mediumDate' }}</td>
+            </tr>
+        </table>
+    </div>
+<!-- Transaction Section -->
+    <div class="card-header">
+        <h6>Make a New Transaction</h6>
+        <form #transactForm="ngForm" (ngSubmit)="onSubmit(transactForm.value)">
+            <div class="form-row">
+                <div class="col-5">
+                    <input type="number" name="amount" class="form-control" placeholder="Enter amount" ngModel>
+                </div>
+                <div class="col-5">
+                    <input type="text" name="description" class="form-control" placeholder="Enter Description" ngModel>
+                </div>
+                <div class="col">
+                    <label class="switch">
+                        <input type="checkbox" name="type" id="togBtn" ngModel>
+                        <div class="slider round">
+                            <!--ADDED HTML -->
+                            <span class="on">Credit</span>
+                            <span class="off">Debit</span>
+                            <!--END-->
+                        </div>
+                    </label>
+                </div>
+                <div>
+                    <button class="btn btn-primary">
+                        Create
+                    </button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+<!-- Table section -->
+    <div class="card-body">
+        <h6>Past Transactions <p  style="float: right"*ngIf="transactionList?.length < 1"> <strong>No Transactions as of now</strong></p></h6>
+        <p style="float: right;" *ngIf="transactionList.length"><a (click)="exportAsXLSX()"><strong>Download Data as excel</strong></a></p>
+        <table *ngIf="transactionList.length">
+            <tr>
+                <th>Transaction id</th>
+                <th>Wallet id</th>
+                <th>Amount</th>
+                <th>Balance</th>
+                <th>Type</th>
+                <th>Description</th>
+                <th>Time</th>
+            </tr>
+            <tr *ngFor="let item of transactionList">
+                <td>{{ item._id }}</td>
+                <td>{{ item.walletUserId}}</td>
+                <td>{{ item.amount}}</td>
+                <td>{{ item.balance}}</td>
+                <td>{{ item.type }}</td>
+                <td>{{ item.description }}</td>
+                <td>{{ item.createdAt | date:'mediumDate' }}</td>
+            </tr>
+
+        </table>
+
+
+    </div>
+
+</div>
